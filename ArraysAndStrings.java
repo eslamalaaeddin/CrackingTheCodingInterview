@@ -1,65 +1,154 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.w3c.dom.css.Counter;
-
-class CrackingTheCodingInterview {
+class ArraysAndStrings {
 	public static void main(String[] args) {
-//		createNByNMatrix(3);
-		test(2);
+		int [][] matrix = {{1, 2, 3}, {4, 5, 6}, {7, 8 ,9}};
+		
+		printMatrix(matrix);
+		System.out.println();
+//		rotateMatrix(matrix);
+		System.out.println();
+		printMatrix(matrix);
 	}
 	
+//	static void rotateMatrix(int[][] matrix) {
+//		
+////		for (int z = 0; z < matrix.length; z++) {
+//			for (int i = 0, j = matrix.length -1 ; i < matrix.length; i++, j--) {
+//				for (int k = 0; k < matrix.length; k++) {
+//					int temp = matrix[i][k];
+//					matrix[i][k] = matrix[k][j];
+//					matrix[k][j] = temp;
+//					System.out.println(i+","+ k + " -> " + k+","+j);
+////					System.out.println(matrix[k][j] + " -> " + matrix[i][k]);
+//				}
+//			}
+//			
+////		}
+//	
+//	}
 	
-	static void createNByNMatrix(int dimension){
-		int counter = 0;
-		for (int i = 0; i < dimension; i++) {
-			for (int j = 0; j < dimension; j++) {
-				System.out.print(++counter +" ");
-				if (dimension - j == 1) {
-					System.out.println();
+	///////////////////////////////////////////////
+	
+	static void testZeroMatrix() {
+		int[][] matrix = { { 0, 1, 1 }, { 1, 1, 1 }, { 1, 1, 0 }, { 1, 1, 1 } };
+
+		printMatrix(matrix);
+		System.out.println("----------");
+		zeroMatrix(matrix);
+		printMatrix(matrix);
+	}
+
+	static void zeroMatrix(int[][] matrix) {
+		List<Integer> rowIndices = new ArrayList<>();
+		List<Integer> colIndices = new ArrayList<>();
+
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[i].length; j++) {
+				if (matrix[i][j] == 0) {
+					rowIndices.add(i);
+					colIndices.add(j);
 				}
 			}
 		}
-		
-	}
-	
-	static void test(int n) {
-		for (int j = 0; j < n; j++) {
-			for (int i = n - 1; i >= 0; i--) {
-				System.out.println(i + "" + j);
+
+		for (Integer rowIndex : rowIndices) {
+			for (int i = 0; i < matrix.length; i++) {
+				matrix[i][rowIndex] = 0;
 			}
 		}
+
+		for (Integer colIndex : colIndices) {
+			for (int i = 0; i < matrix[0].length; i++) {
+				matrix[colIndex][i] = 0;
+			}
+		}
+
+	}
+	
+	///////////////////////////////////////////////
+	
+	static void testStringRotation(){
+		String s1 = "erbottlewat";
+		String s2 = "waterbottle";
+		
+		System.out.println(stringRotation(s1, s2));
+	}
+	
+	static boolean stringRotation(String s1, String s2) {
+		return isSubstring(s1, s2);
 	}
 
+	private static boolean isSubstring(String s1, String s2) {
+		char[] s1Array = s1.toCharArray();
+		char[] s2Array = s2.toCharArray();
+
+		Arrays.sort(s1Array);
+		Arrays.sort(s2Array);
+
+		s1 = getStringFromArray(s1Array);
+		s2 = getStringFromArray(s2Array);
+
+		return s1.contains(s2);
+	}
+
+	private static String getStringFromArray(char[] stringArray) {
+		StringBuilder stringBuilder = new StringBuilder();
+		for (char c : stringArray)
+			stringBuilder.append(c);
+
+		return stringBuilder.toString();
+	}
 	
+	//////////////////////////////////////////////////
+	
+	static void testStringCompression() {
+		String string = "aabcccccaaa";
+		System.out.println(stringCompression(string));
+	}
+
 	static String stringCompression(String string) {
-		if (string.length() == 1) return string + "1";
-		
+		if (string.length() == 1)
+			return string + "1";
+
 		StringBuilder compressedStringBuilder = new StringBuilder();
 		char[] stringArray = string.toCharArray();
 		int counter = 1;
-		
+
 		for (int i = 1; i < stringArray.length; i++) {
-			if (stringArray[i-1] == stringArray[i]) 
+			if (stringArray[i - 1] == stringArray[i])
 				counter++;
-			
+
 			else {
-				compressedStringBuilder.append(stringArray[i-1] + "" + counter);
+				compressedStringBuilder.append(stringArray[i - 1] + "" + counter);
 				counter = 1;
 			}
-			
-			if (stringArray.length - 1 == i) 
+
+			if (stringArray.length - 1 == i)
 				compressedStringBuilder.append(stringArray[i] + "" + counter);
 		}
-		
+
 		String compressedString = compressedStringBuilder.toString();
-		
-		return (compressedString.length() >= string.length()) ?  string : compressedString;
+
+		return (compressedString.length() >= string.length()) ? string : compressedString;
 	}
 
+	//////////////////////////////////////////////////
+	
+	static void testOneAway() {
+		String s1 = "pales";
+		String s2 = "pale";
+		
+		System.out.println(oneAway(s1, s1));
+	}
+	
 	static boolean oneAway(String string1, String string2) {
 		// Zero edits
-		if (string1.equals(string2)) return true; //O(S1 + S2)
+		if (string1.equals(string2))
+			return true; // O(S1 + S2)
 
 		// One edit
 		char[] string1Array = string1.toCharArray();
@@ -67,27 +156,41 @@ class CrackingTheCodingInterview {
 		int differences = 0;
 
 		/*
-		 * Time complexity of below code is S1 * S2, assuming the time complexity for contains is linear
+		 * Time complexity of below code is S1 * S2, assuming the time complexity for
+		 * contains is linear
 		 */
-		
+
 		// For each char in string1 look for it is string2
 		if (string1.length() >= string2.length())
 			for (char c : string1Array) {
-				if (!string2.contains(String.valueOf(c))) differences++;
-				if (differences > 1) return false;
+				if (!string2.contains(String.valueOf(c)))
+					differences++;
+				if (differences > 1)
+					return false;
 			}
-		
+
 		// For each char in string2 look for it is string1
 		else {
 			for (char c : string2Array) {
-				if (!string1.contains(String.valueOf(c))) differences++;
-				if (differences > 1) return false;
+				if (!string1.contains(String.valueOf(c)))
+					differences++;
+				if (differences > 1)
+					return false;
 			}
 		}
 
 		return true;
 	}
-
+	
+	//////////////////////////////////////////////////
+	
+	static void testIsUnique() {
+		String string = "islam";
+		String string2 = "aa";
+		System.out.println(isUnique(string));
+		System.out.println(isUnique(string2));
+	}
+	
 	static boolean isUnique(String string) {
 		char[] stringAsArray = string.toCharArray();
 		StringBuilder sBuilder = new StringBuilder();
@@ -101,6 +204,13 @@ class CrackingTheCodingInterview {
 		return true;
 	}
 
+	//////////////////////////////////////////////////
+	
+	static void testUrlify() {
+		String string = "Mr John Smith   ";
+		urlify(string, 13);
+	}
+	
 	static void urlify(String string, int length) {
 		char[] stringAsArray = string.toCharArray();
 		StringBuilder output = new StringBuilder();
@@ -114,10 +224,24 @@ class CrackingTheCodingInterview {
 
 		System.out.println(output.toString());
 	}
+	
+	//////////////////////////////////////////////////
 
 	static void printArray(char[] array) {
 		for (char c : array) {
 			System.out.print(c + "");
+		}
+		System.out.println();
+	}
+
+	static void printMatrix(int[][] matrix) {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[i].length; j++) {
+				System.out.print(matrix[i][j] + " ");
+				if (matrix[i].length - 1 == j) {
+					System.out.println();
+				}
+			}
 		}
 	}
 
