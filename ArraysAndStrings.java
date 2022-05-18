@@ -1,9 +1,38 @@
-class ArraysAndStrings{
-    public static void main(String[] args) {
-        
-    }
+import java.util.Iterator;
+import java.util.List;
 
-    	static String stringCompression(String string) {
+import org.w3c.dom.css.Counter;
+
+class CrackingTheCodingInterview {
+	public static void main(String[] args) {
+//		createNByNMatrix(3);
+		test(2);
+	}
+	
+	
+	static void createNByNMatrix(int dimension){
+		int counter = 0;
+		for (int i = 0; i < dimension; i++) {
+			for (int j = 0; j < dimension; j++) {
+				System.out.print(++counter +" ");
+				if (dimension - j == 1) {
+					System.out.println();
+				}
+			}
+		}
+		
+	}
+	
+	static void test(int n) {
+		for (int j = 0; j < n; j++) {
+			for (int i = n - 1; i >= 0; i--) {
+				System.out.println(i + "" + j);
+			}
+		}
+	}
+
+	
+	static String stringCompression(String string) {
 		if (string.length() == 1) return string + "1";
 		
 		StringBuilder compressedStringBuilder = new StringBuilder();
@@ -28,7 +57,6 @@ class ArraysAndStrings{
 		return (compressedString.length() >= string.length()) ?  string : compressedString;
 	}
 
-	
 	static boolean oneAway(String string1, String string2) {
 		// Zero edits
 		if (string1.equals(string2)) return true; //O(S1 + S2)
@@ -85,6 +113,12 @@ class ArraysAndStrings{
 				output.append(stringAsArray[i]);
 
 		System.out.println(output.toString());
+	}
+
+	static void printArray(char[] array) {
+		for (char c : array) {
+			System.out.print(c + "");
+		}
 	}
 
 }
