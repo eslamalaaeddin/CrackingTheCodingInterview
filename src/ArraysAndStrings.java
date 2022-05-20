@@ -5,31 +5,34 @@ import java.util.List;
 
 class ArraysAndStrings {
     public static void main(String[] args) {
-        int[][] matrix = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-
-        printMatrix(matrix);
-        System.out.println();
-//		rotateMatrix(matrix);
-        System.out.println();
-        printMatrix(matrix);
+        testRotateMatrix();
     }
 
-//	static void rotateMatrix(int[][] matrix) {
-//		
-////		for (int z = 0; z < matrix.length; z++) {
-//			for (int i = 0, j = matrix.length -1 ; i < matrix.length; i++, j--) {
-//				for (int k = 0; k < matrix.length; k++) {
-//					int temp = matrix[i][k];
-//					matrix[i][k] = matrix[k][j];
-//					matrix[k][j] = temp;
-//					System.out.println(i+","+ k + " -> " + k+","+j);
-////					System.out.println(matrix[k][j] + " -> " + matrix[i][k]);
-//				}
-//			}
-//			
-////		}
-//	
-//	}
+
+    static void testRotateMatrix(){
+        int[][] matrix = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        rotateMatrix(matrix);
+    }
+
+    static void rotateMatrix(int[][] matrix) {
+        int[][] rotatedMatrix = new int[matrix.length][matrix.length];
+
+        for (int i = 0, j = matrix.length - 1; i < matrix.length; i++, j--) {
+            for (int k = 0; k < matrix.length; k++) {
+
+                //I don't know why the swapping is not correct
+//                int temp = matrix[i][k];
+//                matrix[i][k] = matrix[k][j];
+//                matrix[k][j] = temp;
+
+                rotatedMatrix[k][j] = matrix[i][k];
+
+                System.out.println(i + "," + k + " -> " + k + "," + j);
+            }
+        }
+
+        printMatrix(rotatedMatrix);
+    }
 
     ///////////////////////////////////////////////
 
@@ -235,6 +238,7 @@ class ArraysAndStrings {
     }
 
     static void printMatrix(int[][] matrix) {
+        System.out.println();
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 System.out.print(matrix[i][j] + " ");
@@ -243,6 +247,7 @@ class ArraysAndStrings {
                 }
             }
         }
+        System.out.println();
     }
 
 }
