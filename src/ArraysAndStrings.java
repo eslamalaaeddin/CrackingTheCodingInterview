@@ -1,15 +1,44 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 class ArraysAndStrings {
     public static void main(String[] args) {
-        testRotateMatrix();
+
     }
 
+    static void testIsPalindromePermutation() {
+        String testString = "Tact Coa".toLowerCase();
+        List<String> palindromes = List.of("taco cat", "atco cta");
 
-    static void testRotateMatrix(){
+        for (String string : palindromes) {
+            System.out.println(isPermutation(testString, string));
+        }
+    }
+
+    static void testIsPermutation() {
+        String testString = "abc";
+        List<String> strings = List.of("bac", "bca", "cba", "cab", "bac", "abc");
+
+        for (String string : strings) {
+            System.out.println(isPermutation(testString, string));
+        }
+    }
+
+    private static boolean isPermutation(String s1, String s2) {
+        char[] s1Array = s1.toCharArray();
+        char[] s2Array = s2.toCharArray();
+
+        Arrays.sort(s1Array);
+        Arrays.sort(s2Array);
+
+        s1 = getStringFromArray(s1Array);
+        s2 = getStringFromArray(s2Array);
+
+        return s1.contains(s2) && s2.contains(s1);
+    }
+
+    ///////////////////////////////////////////////
+
+    static void testRotateMatrix() {
         int[][] matrix = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         rotateMatrix(matrix);
     }
@@ -190,10 +219,17 @@ class ArraysAndStrings {
     static void testIsUnique() {
         String string = "islam";
         String string2 = "aa";
-        System.out.println(isUnique(string));
-        System.out.println(isUnique(string2));
+//        System.out.println(isUnique(string));
+//        System.out.println(isUniqueV2(string));
+        System.out.println(isUniqueV3(string));
+//        System.out.println(isUnique(string2));
+//        System.out.println(isUniqueV2(string2));
+        System.out.println(isUniqueV3(string2));
     }
 
+    //TC: O(N^2) -> for each char do the contains function, assuming contains takes
+    //O(N).
+    //SC: O(N)
     static boolean isUnique(String string) {
         char[] stringAsArray = string.toCharArray();
         StringBuilder sBuilder = new StringBuilder();
@@ -204,6 +240,48 @@ class ArraysAndStrings {
             else
                 sBuilder.append(ch);
 
+        return true;
+    }
+
+    //TC: O(N lg N) which is the time complexity of the sorting algorithm
+    //SC: O(N)
+    static boolean isUniqueV2(String string) {
+        char[] stringAsArray = string.toCharArray();
+
+        Arrays.sort(stringAsArray);
+
+        for (int i = 0; i < stringAsArray.length - 1; i++) {
+            if (stringAsArray[i] == stringAsArray[i + 1])
+                return false;
+        }
+        return true;
+    }
+
+    //TC: O(N)
+    //SC: O(N)
+    static boolean isUniqueV3(String string) {
+        char[] stringAsArray = string.toCharArray();
+        Set<String> stringSet = new HashSet<>();
+
+        for (char c : stringAsArray)
+            stringSet.add(String.valueOf(c));
+
+        return stringAsArray.length == stringSet.size();
+    }
+
+    static boolean isUniqueV4(String str) {
+        if (str.length() > 128) return false;
+
+        boolean[] char_set = new boolean[128];
+
+        for (int i = 0; i < str.length(); i++) {
+            int val = str.charAt(i);
+            System.out.println(val);
+            if (char_set[val]) {
+                return false;
+            }
+            char_set[val] = true;
+        }
         return true;
     }
 
