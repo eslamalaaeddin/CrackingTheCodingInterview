@@ -2,26 +2,75 @@ public class LinkedLists {
     static class Node {
         int data;
         Node next;
+        Node previous;
 
         public Node(int data) {
             this.data = data;
         }
 
-        public Node(int data, Node next) {
-            this.data = data;
-            this.next = next;
+    }
+    static class HeadTailContainer{
+        Node head;
+        Node tail;
+
+        public HeadTailContainer(Node head, Node tail) {
+            this.head = head;
+            this.tail = tail;
         }
     }
 
     public static void main(String[] args) {
+        
 
     }
 
     static void testDeleteMiddleNode(){
-        Node head = init9NodesLinkedList();
+        Node head = init9NodesSinglyLinkedList();
         Node newHead = deleteMiddleNode(head, 5);
-        printLinkedList(newHead);
+        printSinglyLinkedList(newHead);
     }
+    static void testSumListsReverseAndForward(){
+        Node head1 = createListFromNumber("716");
+        Node head2 = createListFromNumber("592");
+        printSinglyLinkedList(head1);
+        printSinglyLinkedList(head2);
+
+        System.out.println(sumListsReverse(head1, head2));
+
+        Node head3 = createListFromNumber("617");
+        Node head4 = createListFromNumber("295");
+        System.out.println(sumListsForward(head3, head4));
+    }
+    static void testIsSinglyPalindrome(){
+        Node head = createListFromNumber("121");
+        Node head2 = createListFromNumber("123");
+        System.out.println(isSinglyPalindrome(head));
+        System.out.println(isSinglyPalindrome(head2));
+    }
+
+    static boolean isSinglyPalindrome(Node head){
+        StringBuilder stringBuilder = new StringBuilder();
+        while (head != null){
+            stringBuilder.append(head.data);
+            head = head.next;
+        }
+
+        String originalString = stringBuilder.toString();
+        String reversedString = reverseString(originalString);
+
+        return originalString.equals(reversedString);
+    }
+
+    // I left it :)
+//    static boolean isDoublyPalindrome(Node head, Node tail, int i, int j){
+//        while (head != null && tail != null && head.data == tail.data && i < j){
+//            System.out.println(i + " " + j + " " + head.data + " " + tail.data);
+//            isDoublyPalindrome(head.next, tail.previous, i++, j--);
+//        }
+//
+//        return i == j;
+//    }
+
 
     //Delete 5
     static Node deleteMiddleNode(Node head, int value){
@@ -40,27 +89,14 @@ public class LinkedLists {
         return head;
     }
 
-    static void testSumListsReverseAndForward(){
-        Node head1 = createListFromNumber("716");
-        Node head2 = createListFromNumber("592");
-        printLinkedList(head1);
-        printLinkedList(head2);
-
-        System.out.println(sumListsReverse(head1, head2));
-
-        Node head3 = createListFromNumber("617");
-        Node head4 = createListFromNumber("295");
-        System.out.println(sumListsForward(head3, head4));
-    }
-
     //:(7-> 1 -> 6) + (5 -> 9 -> 2).
     static long sumListsReverse(Node headList1, Node headList2){
         //convert list to number
         String number1String = convertListToNumber(headList1);
         String number2String = convertListToNumber(headList2);
         //reverse that number
-        long number1 = reverseNumber(number1String);
-        long number2 = reverseNumber(number2String);
+        long number1 = Long.parseLong(reverseString(number1String));
+        long number2 = Long.parseLong(reverseString(number2String));
 
         return number1 + number2;
     }
@@ -86,17 +122,18 @@ public class LinkedLists {
         return numberBuilder.toString();
     }
 
-    static Long reverseNumber(String number){
+    static String reverseString(String number){
         char[] numberAsArray = number.toCharArray();
         StringBuilder reversedNumberBuilder = new StringBuilder();
 
         for (int i = numberAsArray.length - 1; i >= 0; i--) {
             reversedNumberBuilder.append(numberAsArray[i]);
         }
-        return Long.parseLong(reversedNumberBuilder.toString());
+        return reversedNumberBuilder.toString();
     }
 
-    private static Node init9NodesLinkedList() {
+
+    private static Node init9NodesSinglyLinkedList() {
         Node head = new Node(1);
         Node node2 = new Node(2);
         Node node3 = new Node(3);
@@ -119,6 +156,44 @@ public class LinkedLists {
         return head;
     }
 
+    private static HeadTailContainer init9NodesDoublyLinkedList() {
+        Node head = new Node(1);
+        Node node2 = new Node(2);
+        Node node3 = new Node(3);
+        Node node4 = new Node(4);
+        Node node5 = new Node(5);
+        Node node6 = new Node(6);
+        Node node7 = new Node(7);
+        Node node8 = new Node(8);
+        Node tail = new Node(9);
+
+        head.next = node2;
+//        head.previous = tail;
+
+        node2.next = node3;
+        node2.previous = head;
+
+        node3.next = node4;
+        node3.previous = node2;
+
+        node4.next = node5;
+        node4.previous = node3;
+
+        node5.next = node6;
+        node5.previous = node4;
+
+        node6.next = node7;
+        node6.previous = node5;
+
+        node7.next = node8;
+        node7.previous = node6;
+
+        node8.next = tail;
+        node8.previous = node7;
+
+        return new HeadTailContainer(head, tail);
+    }
+
     private static Node createListFromNumber(String number){
         Node head = new Node(Integer.parseInt(String.valueOf(number.charAt(0))));
         Node iterator = head;
@@ -131,9 +206,40 @@ public class LinkedLists {
         return head;
     }
 
-    private static void printLinkedList(Node head){
+    private static HeadTailContainer createDoublyListFromNumber(String number){
+        Node head = new Node(Integer.parseInt(String.valueOf(number.charAt(0))));
+        Node iterator = head;
+        char[] numberArray = number.toCharArray();
+        for (int i = 1; i < numberArray.length; i++) {
+            iterator.next = new Node(Integer.parseInt(String.valueOf(number.charAt(i))));
+            iterator = iterator.next;
+            iterator.previous = head;
+        }
+
+        return new HeadTailContainer(head, iterator);
+    }
+
+    private static void printSinglyLinkedList(Node head){
+        int counter = 0;
         while (head != null){
-            System.out.print( " -> " + head.data);
+            if (counter == 0)
+                System.out.print(head.data);
+            else
+                System.out.print( " -> " + head.data);
+            counter++;
+            head = head.next;
+        }
+        System.out.println();
+    }
+
+    private static void printDoublyLinkedList(Node head){
+        int counter = 0;
+        while (head != null){
+            if (counter == 0)
+                System.out.print(head.data);
+            else
+                System.out.print( " <-> " + head.data);
+            counter++;
             head = head.next;
         }
         System.out.println();
