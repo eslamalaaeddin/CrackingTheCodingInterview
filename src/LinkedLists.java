@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class LinkedLists {
     static class Node {
         int data;
@@ -20,10 +22,16 @@ public class LinkedLists {
     }
 
     public static void main(String[] args) {
-        
-
+    	
+    	
     }
-
+    
+    static void testRemoveDuplciates() {
+    	Node head = createListFromNumber("213241");
+    	Node newHead = removeDuplicates(head);
+    	printSinglyLinkedList(newHead);
+    }
+   
     static void testDeleteMiddleNode(){
         Node head = init9NodesSinglyLinkedList();
         Node newHead = deleteMiddleNode(head, 5);
@@ -46,6 +54,61 @@ public class LinkedLists {
         Node head2 = createListFromNumber("123");
         System.out.println(isSinglyPalindrome(head));
         System.out.println(isSinglyPalindrome(head2));
+    }
+    
+    static void testLoopDetection() {
+    	Node head = createCircularSinglyLinkedList();
+        System.out.println("Loop Detected At Node: " + loopDetection(head));
+    }
+    
+    static Node removeDuplicates(Node head) {
+    	Node removedDuplicatesHead = head;
+    	//Just for demonstrating
+//    	System.out.println(head.hashCode());
+//    	System.out.println(removedDuplicatesHead.hashCode());
+    	while (head != null) {
+    		Node iterator = head.next;
+    		Node nodeBeforeIterator = head;
+    		while (iterator != null) {
+    			if (head.data == iterator.data) {
+//    				System.out.println(head.data);
+    				nodeBeforeIterator.next = iterator.next;
+				}
+    			nodeBeforeIterator = iterator;
+    			iterator = iterator.next;
+    			
+			}
+    		//Just for demonstrating
+//    		if (head.next == null) {
+//    			System.out.println(head.hashCode());
+//    	    	System.out.println(hNoremovedDuplicatesHeadde.hashCode());
+//			}
+    		/* Important concept
+    		 * String s1 = "islam";
+		    	String s2 = s1;
+		    	
+		    	System.out.println(s1);
+		    	System.out.println(s2);
+		    	
+		    	s1 = "ahmed";
+		    	
+		    	System.out.println(s1);
+		    	System.out.println(s2);
+    		 */
+    		head = head.next;
+		}
+    	return removedDuplicatesHead;
+    }
+    
+    // Should we ask "are all values in the linked list distinct?"
+    static int loopDetection(Node head) {
+    	HashMap<Integer, Boolean> map = new HashMap<>();
+    	while (head != null) {
+    		if (map.containsKey(head.hashCode())) return head.data;
+			map.put(head.hashCode(), true);
+			head = head.next;
+		}
+    	return -1;
     }
 
     static boolean isSinglyPalindrome(Node head){
@@ -194,6 +257,23 @@ public class LinkedLists {
         return new HeadTailContainer(head, tail);
     }
 
+    private static Node createCircularSinglyLinkedList() {
+    	Node head = new Node(1);
+        Node node2 = new Node(2);
+        Node node3 = new Node(3);
+        Node node4 = new Node(4);
+        Node tail = new Node(5);
+      
+        head.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        node4.next = tail;
+        tail.next = node3;
+        
+        
+        return head;
+    }
+    
     private static Node createListFromNumber(String number){
         Node head = new Node(Integer.parseInt(String.valueOf(number.charAt(0))));
         Node iterator = head;
