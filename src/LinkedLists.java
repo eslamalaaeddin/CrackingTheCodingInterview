@@ -6,6 +6,9 @@ public class LinkedLists {
         Node next;
         Node previous;
 
+        public Node() {
+        }
+
         public Node(int data) {
             this.data = data;
         }
@@ -23,29 +26,47 @@ public class LinkedLists {
     }
 
     public static void main(String[] args) {
-//        Node head1 = createListFromNumberGetHead("41");
-//        Node tail1 = getTail(head1);
-//
-//        Node head2 = createListFromNumberGetHead("561");
-//        Node tail2 = getTail(head2);
-//
-//        Node last = createListFromNumberGetHead("845");
+//        Node head = createListFromNumberGetHead("123456789");
+//        System.out.println(returnKthToLastIteratively(head, 0).data);
+        /*
+    Input : 1->4->3->2->5->2->3,
+        x = 3
+    Output: 1->2->2->3->3->4->5
 
-        Node head1 = createListFromNumberGetHead("264");
+    Input : 1->4->2->10
+        x = 3
+    Output: 1->2->4->10
+
+    Input : 10->4->20->10->3
+        x = 3
+    Output: 3->10->4->20->10
+     */
+        Node head1 = createListFromNumberGetHead("1432523");
+        Node head2 = createListFromNumberGetHead("1428");
+        Node head3 = createListFromNumberGetHead("84983");
+        partition(head1, 3);
+        System.out.println();
+        partition(head2, 3);
+        System.out.println();
+        partition(head3, 3);
+    }
+
+    static void testIntersection() {
+        Node head1 = createListFromNumberGetHead("41");
         Node tail1 = getTail(head1);
 
-        Node head2 = createListFromNumberGetHead("1");
+        Node head2 = createListFromNumberGetHead("561");
         Node tail2 = getTail(head2);
 
-//        Node last = createListFromNumberGetHead("24");
+        Node last = createListFromNumberGetHead("845");
 
-//        tail1.next = last;
-//        tail2.next = last;
+        tail1.next = last;
+        tail2.next = last;
 
         System.out.println(intersection(head1, head2));
     }
 
-    static void testRemoveDuplciates() {
+    static void testRemoveDuplicates() {
         Node head = createListFromNumberGetHead("213241");
         Node newHead = removeDuplicates(head);
         printSinglyLinkedList(newHead);
@@ -82,11 +103,11 @@ public class LinkedLists {
         System.out.println("Loop Detected At Node: " + loopDetection(head));
     }
 
-    static Node intersection(Node head1, Node head2){
+    static Node intersection(Node head1, Node head2) {
         Node originalHead2 = head2;
-        while (head1 != null){
-            while (head2 != null){
-                if (head1 == head2){
+        while (head1 != null) {
+            while (head2 != null) {
+                if (head1 == head2) {
                     System.out.println(head1.data);
                     return head1;
                 }
@@ -98,23 +119,49 @@ public class LinkedLists {
         return null;
     }
 
+    static Node returnKthToLastIteratively(Node head, int k) {
+        int length = 0;
+        Node originalHead = head;
+        while (head != null) {
+            length++;
+            head = head.next;
+        }
 
-    //1->2->2->3->3->4->5
+        int counter = 0;
+        while (counter < length - k && originalHead.next != null) {
+            originalHead = originalHead.next;
+            counter++;
+        }
+        return originalHead;
+    }
+    //iterate -> compare to less -> add -> iterate -> compare to equal -> add
+
     static void partition(Node head, int pivot) {
-        Node origin = head;
+        Node originalHead = head;
         while (head != null) {
             if (head.data < pivot) {
-                System.out.print(" ->" + head.data);
+                System.out.print(head.data + " ");
             }
             head = head.next;
         }
-        head = origin;
+
+        head = originalHead;
+
+        while (head != null) {
+            if (head.data == pivot) {
+                System.out.print(head.data + " ");
+            }
+            head = head.next;
+        }
+
+        head = originalHead;
         while (head != null) {
             if (head.data > pivot) {
-                System.out.print(" ->" + head.data);
+                System.out.print(head.data + " ");
             }
             head = head.next;
         }
+//        printSinglyLinkedList(newHead);
     }
 
     static Node removeDuplicates(Node head) {
@@ -341,8 +388,8 @@ public class LinkedLists {
         return head;
     }
 
-    static Node getTail(Node head){
-        while (head.next != null){
+    static Node getTail(Node head) {
+        while (head.next != null) {
             head = head.next;
         }
         return head;
