@@ -1,13 +1,27 @@
 package StacksAndQueues;
 
-
 public class StacksAndQueues {
 
     public static void main(String[] args) {
 
 
+    }
 
+    static void testQueueViaStacks(){
+        MyQueue myQueue = new MyQueue();
+        System.out.println(myQueue.isEmpty());
+        myQueue.enqueue(5);
+        myQueue.enqueue(2);
+        myQueue.enqueue(3);
+        myQueue.enqueue(4);
+        System.out.println(myQueue.isEmpty());
 
+        System.out.println(myQueue.getStack1());
+        System.out.println(myQueue.getStack2());
+
+        System.out.println(myQueue.dequeue());
+
+        System.out.println(myQueue.peek());
     }
 
     static void testStackOfPlates(){
