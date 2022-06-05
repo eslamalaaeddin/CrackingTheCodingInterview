@@ -36,6 +36,7 @@ public class StackOfPlates {
 
     //What i get is that index refers to a stack not an element
     int popAt(int index) {
+        //TODO FOLLOW UP
         Stacky originalStack = currentStack;
 
         System.out.println(currentStack.getTop().getData());
