@@ -4,6 +4,18 @@ package StacksAndQueues;
 public class StacksAndQueues {
 
     public static void main(String[] args) {
+        StackOfPlates stackOfPlates = new StackOfPlates(5);
+        for (int i = 1; i <= 9; i++) {
+            stackOfPlates.push(i);
+        }
+
+//        System.out.println(stackOfPlates.getArrayOfTops());
+
+        stackOfPlates.getCurrentStack().print();
+
+        stackOfPlates.popAt(1);
+
+        stackOfPlates.getCurrentStack().print();
 
     }
 

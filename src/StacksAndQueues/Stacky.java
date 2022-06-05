@@ -40,7 +40,9 @@ package StacksAndQueues;
         int tempSize = size;
         Item temptop = top;
         if (size == 0) {
-            throw new RuntimeException("Stack is empty!");
+            System.out.println("[]");
+            return;
+//            throw new RuntimeException("Stack is empty!");
         }
 
         while (size > 0) {
@@ -52,4 +54,28 @@ package StacksAndQueues;
         top = temptop;
         System.out.println("--");
     }
-}
+
+     public int getSize() {
+         return size;
+     }
+
+     public void setSize(int size) {
+         this.size = size;
+     }
+
+     public Item getTop() {
+         return top;
+     }
+
+     public void setTop(Item top) {
+         this.top = top;
+     }
+
+     public Item getLowest() {
+         return lowest;
+     }
+
+     public void setLowest(Item lowest) {
+         this.lowest = lowest;
+     }
+ }
