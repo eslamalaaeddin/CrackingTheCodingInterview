@@ -1,3 +1,5 @@
+package ArraysAndStrings;
+
 import java.util.*;
 
 class ArraysAndStrings {
