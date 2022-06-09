@@ -1,7 +1,42 @@
 package TreesAndGraphs;
 
+import java.util.Arrays;
+
 public class Tree {
     public static void main(String[] args) {
+
+    }
+
+    static void testGetBSTFromArray(){
+        int[] array1 = {2, 4, 6, 8, 9, 10, 20};
+        int[] array2 = {2, 4, 6, 7, 8, 9, 10, 11, 20};
+
+        inOrderTraversal(getMinimalBSTFromArray(array1));
+        System.out.println();
+        inOrderTraversal(getMinimalBSTFromArray(array2));
+    }
+
+    static TreeNode getMinimalBSTFromArray(int[] array) {
+        TreeNode root;
+        if (array.length == 1) {
+            root = new TreeNode(array[0]);
+            return root;
+        }
+
+        if (array.length == 2) {
+            root = new TreeNode(array[1]);
+            root.setLeft(new TreeNode(array[0]));
+            return root;
+        }
+
+        root = new TreeNode(array[array.length / 2]);
+        root.setLeft(getMinimalBSTFromArray(Arrays.copyOfRange(array, 0, array.length / 2)));
+        root.setRight(getMinimalBSTFromArray(Arrays.copyOfRange(array, array.length / 2 + 1, array.length)));
+
+        return root;
+    }
+
+    static void testTraversing() {
         TreeNode root = initBST();
         System.out.print("InOrder: ");
         inOrderTraversal(root);
